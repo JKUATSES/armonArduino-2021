@@ -30,7 +30,15 @@ Select the board
 
 ![image](https://user-images.githubusercontent.com/28790446/119007756-329a3080-b99a-11eb-9db3-d47b747ae2e9.png)
 
+## Africastalking dev kit
 
+[More info](https://blackd0t.gitbook.io/africastalking-eris-devkit-playground/arduino/arduino)
+
+![image](https://user-images.githubusercontent.com/28790446/119009148-822d2c00-b99b-11eb-8d21-2ba46ab2c032.png)
+
+![image](https://user-images.githubusercontent.com/28790446/119010541-d684db80-b99c-11eb-9cfa-004f8b232afa.png)
+
+[More info](https://developers.africastalking.com/docs/iot/eris/eris_dev_board)
 ## ESP
 
 The ESP32 is an updated version of the ESP8266, which was a chip that took experimenters in the western world by “surprise” in 2014. The original ESP8266 was introduced on a module called the ESP-01, which had very little English documentation so it’s capabilities were largely unknown at the time. Once the documentation was translated into English many experimenters soon became aware of the power of the ESP8266, and it quickly became very popular.
