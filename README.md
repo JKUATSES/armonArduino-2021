@@ -1,7 +1,8 @@
 # superchargeArduino-2021
 This is a repo to help you get started on developing for the arm chip on arduino
 
-## Arm
+## Installing stm32 boards
+
 1- Launch Arduino.cc IDE. Click on "File" menu and then "Preferences".
 
 The "Preferences" dialog will open, then add the following link to the "Additional Boards Managers URLs" field:
@@ -39,6 +40,7 @@ Select the board
 ![image](https://user-images.githubusercontent.com/28790446/119010541-d684db80-b99c-11eb-9cfa-004f8b232afa.png)
 
 [More info](https://developers.africastalking.com/docs/iot/eris/eris_dev_board)
+
 ## ESP
 
 The ESP32 is an updated version of the ESP8266, which was a chip that took experimenters in the western world by “surprise” in 2014. The original ESP8266 was introduced on a module called the ESP-01, which had very little English documentation so it’s capabilities were largely unknown at the time. Once the documentation was translated into English many experimenters soon became aware of the power of the ESP8266, and it quickly became very popular.
@@ -129,9 +131,64 @@ void loop()
 }
 ```
 
+## RTOS
+There are several use cases for wanting to multitask on a microcontroller. For instance: you might have a microcontroller that reads a temperature sensor, shows it on an LCD, and send it to the cloud.
+
+You can do all three synchronously, one after the other. But what if you're using an e-ink display that takes a few seconds to refresh?
+
+Luckily the Arduino implementation for the ESP32 includes the possibility to schedule tasks with FreeRTOS. These can run on a single core, many cores and you can even define which is more important and should get preferential treatment.
+
+```cpp
+#define ONBAORD_LED_PIN 2
+#define BREADBOARD_LED_PIN 2
+#define SETUP_DELAY 1000
+
+TaskHandle_t Task1;
+TaskHandle_t Task2;
+
+void Task1code(void *pvParameters);
+void Task2code(void *pvParameters);
+
+void setup()
+{
+    Serial.begin(115200);
+    delay(SETUP_DELAY);
+    pinMode(ONBAORD_LED_PIN, OUTPUT);
+    pinMode(BREADBOARD_LED_PIN, OUTPUT);
+            
+    xTaskCreatePinnedToCore(Task1code, "Task1", 10000, NULL, 1, &Task1, 0);
+    delay(SETUP_DELAY);
+
+    xTaskCreatePinnedToCore(Task2code, "Task2", 10000, NULL, 1, &Task2, 1);
+    delay(SETUP_DELAY);
+}
 
 
+void loop(){
+}
 
+void Task1code(void *pvParameters)
+{
+    for (;;)
+    {
+        digitalWrite(ONBAORD_LED_PIN, HIGH);
+        delay(2000);
+        digitalWrite(ONBAORD_LED_PIN, LOW);
+    }
+}
+
+void Task2code(void *pvParameters)
+{
+    
+    for (;;)
+    {  
+
+      digitalWrite(BREADBOARD_LED_PIN, HIGH);
+      delay(1000);
+      digitalWrite(BREADBOARD_LED_PIN, LOW);
+    }
+}
+```
 
 
 
